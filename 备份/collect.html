@@ -57,8 +57,8 @@
                       type:""+z+""                    
                 },
                 success:function(data){
-                    // if (data==1)
-                        // location.replace(document.referrer);
+                    if (data==1)
+                        location.reload();
                 },error:function(data){
                     alert(data)
                 }
@@ -71,8 +71,8 @@
                 async:true,
                 data:{id:""+i+""},
                 success:function(data){
-                    // if (data==1)
-                        // location.replace(document.referrer);
+                    if (data==1)
+                        location.reload();
                 },error:function(data){
                     alert(data)
                 }
@@ -92,15 +92,15 @@
                       uid:""+foo+"",
                       type:""+z+""},
                 success:function(data){
-                    // if (data==1)
-                        // location.replace(document.referrer);
+                    if (data==1)
+                        location.reload();
                 },error:function(data){
                     alert(data)
                 }
             })
         };
         var in1=function(u){
-            window.location.href=""+u+""
+            window.open(""+u+"");
         }
         $.ajax({
                 type:"post",
@@ -137,15 +137,7 @@
             });
     </script>
 </head>
-<body style="overflow: hidden;">
-    <div class="main_top"></div>
-    <div class="main_left">
-        <ul>
-            <li class="a"  tabindex="-1">我的收藏</li>
-        </ul>
-    </div>
-    <!-- 右侧内容 -->
-    <div class="main_right">
+<body >
         <table border="1" id="xhj">
             <tr>
                 <td >网站名</td>
