@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>收藏</title>
+    <style>
+        body{
+            margin: 0;
+        }
+        .main_top{
+            position:absolute;
+            margin-top: 0;
+            width: 100%;
+            height: 50px;
+            background:#5d6969e3;
+        }
+        .main_left{
+            position:absolute;
+            width: 15%;
+            height: 100%;
+            margin-top: 50px;
+            /* margin-left: 0; */
+            float:left;
+            background:#c0c0c0;
+            cursor:pointer;
+        }
+        .main_right{
+            position:absolute;
+            margin-left: 15%;   
+            margin-top:50px;
+            float:right;
+            height: 100%;
+            width: 85%;
+            /* height: 100%;
+            width: 100%;
+            
+            background:#c0c0c0;
+            cursor:pointer; */
+        }
+    </style>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script>
+        var a,b,c,d,e;
+        var ck = function(i){
+            var x = prompt ("新的网站名: ", ""+a+"");/*第一个变量为提示语，第二个变量为默认初始值*/
+            var y = prompt ("新的网址: ",""+b+"")
+            var z = prompt ("公开方式(0表示公开,1表示私有): ", ""+c+"")
+            $.ajax({
+                type:"post",
+                url:"http://127.0.0.1:8899/first/updata",
+                async:true,
+                data:{id:""+i+"",
+                      wname:""+x+"",
+                      wurl:""+y+"",
+                      type:""+z+""                    
+                },
+                success:function(data){
+                    // if (data==1)
+                        // location.replace(document.referrer);
+                },error:function(data){
+                    alert(data)
+                }
+            })
+        };
+        var del=function(i){
+            $.ajax({
+                type:"post",
+                url:"http://127.0.0.1:8899/first/del",
+                async:true,
+                data:{id:""+i+""},
+                success:function(data){
+                    // if (data==1)
+                        // location.replace(document.referrer);
+                },error:function(data){
+                    alert(data)
+                }
+            })
+        };
+        var foo = localStorage.getItem('uname')
+        var add=function(){
+            var x = prompt ("网站名: ", "请输入网站名");/*第一个变量为提示语，第二个变量为默认初始值*/
+            var y = prompt ("网址: ","请输入网址")
+            var z = prompt ("公开方式(0表示公开,1表示私有): ", "请输入公开方式")
+            $.ajax({
+                type:"post",
+                url:"http://127.0.0.1:8899/first/add",
+                async:true,
+                data:{wname:""+x+"",
+                      wurl:""+y+"",
+                      uid:""+foo+"",
+                      type:""+z+""},
+                success:function(data){
+                    // if (data==1)
+                        // location.replace(document.referrer);
+                },error:function(data){
+                    alert(data)
+                }
+            })
+        };
+        var in1=function(u){
+            window.location.href=""+u+""
+        }
+        $.ajax({
+                type:"post",
+                url:"http://127.0.0.1:8899/first/list",
+                async:true,
+                data:{uid:""+foo+""},
+                success:function(data){
+                    var stu=data
+                    $(document).ready(function() {
+                        var s = "";
+		                for(var i = 0; i < stu.length; i++) {
+                            a=stu[i].wname
+                            b=stu[i].wurl
+                            c=stu[i].type
+                            d=stu[i].id
+                	        s="<tr>";//重新装载每一行
+	                        // for(var key in stu[i]){	 //此时key=属性名               	
+	                	    s=s+"<td class='a'>"+stu[i].wname+"</td>";	 
+                            s=s+"<td class='b'>"+stu[i].wurl+"</td>";
+                            s=s+"<td class='c'>"+stu[i].uid+"</td>";
+                            s=s+"<td class='d'>"+stu[i].count+"</td>"; 
+                            s=s+"<td class='d'>"+stu[i].type+"</td>"; 
+                            s=s+"<td ><button onclick=in1(\""+stu[i].wurl+"\");>进入</button></td>";
+                            s=s+"<td ><button onclick=ck(\""+d+"\");>修改</button></td>"; 
+                            s=s+"<td ><button onclick=del(\""+d+"\");>删除</button></td>";           	
+	                // } 
+	              s+="</tr>";  
+	              $("#xhj").append(s);//把遍历到的每一行 加入
+               }
+            });
+                },error:function(data){
+                    alert(data)
+                }
+            });
+    </script>
+</head>
+<body style="overflow: hidden;">
+    <div class="main_top"></div>
+    <div class="main_left">
+        <ul>
+            <li class="a"  tabindex="-1">我的收藏</li>
+        </ul>
+    </div>
+    <!-- 右侧内容 -->
+    <div class="main_right">
+        <table border="1" id="xhj">
+            <tr>
+                <td >网站名</td>
+                <td >网址</td>
+                <td >收藏用户</td>
+                <td >点击次数</td>
+                <td >公开方式</td>
+                <td ><button onclick=add();>添加</button></td>
+            </tr>
+
+        </table>
+    </div>
+    
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script>
+        var ck=function(u){
+            var z = prompt ("权限(0表示普通用户,1表示管理员): ", "请输入权限")
+            $.ajax({
+                type:"post",
+                url:"http://127.0.0.1:8899/login/updata_role",
+                async:true,
+                data:{username:""+u+"",
+                      role:""+z+""
+                },
+                success:function(data){
+                    // if (data==1)
+                    //     location.replace(document.referrer);
+                },error:function(data){
+                    alert(data)
+                }
+            })
+        }
+        var ck1=function(u){
+            var z = prompt ("用户密码: ", "请输入密码")
+            $.ajax({
+                type:"post",
+                url:"http://127.0.0.1:8899/login/updata",
+                async:true,
+                data:{username:""+u+"",
+                      password:""+z+""
+                },
+                success:function(data){
+                    // if (data==1)
+                    //     location.replace(document.referrer);
+                },error:function(data){
+                    alert(data)
+                }
+            })
+        }
+        var del=function(i){
+            $.ajax({
+                type:"post",
+                url:"http://127.0.0.1:8899/login/del",
+                async:true,
+                data:{id:""+i+""},
+                success:function(data){
+                    // if (data==1)
+                    //     location.replace(document.referrer);
+                },error:function(data){
+                    alert(data)
+                }
+            })
+        }
+        var add=function(){
+            var x = prompt ("用户名: ", "请输入用户名");/*第一个变量为提示语，第二个变量为默认初始值*/
+            var y = prompt ("密码: ","请输入密码")
+            $.ajax({
+                type:"post",
+                url:"http://127.0.0.1:8899/login/add",
+                async:true,
+                data:{username:""+x+"",
+                      password:""+y+""
+                    },
+                success:function(data){
+                    // if (data==1)
+                    //     location.replace(document.referrer);
+                },error:function(data){
+                    alert(data)
+                }
+            })
+        }
+        $.ajax({
+            type:"post",
+            url:"http://127.0.0.1:8899/login/list",
+            async:true,
+            success:function(data){
+                var stu=data
+                $(document).ready(function(){
+                    for(var i = 0; i < stu.length; i++) {
+                	        s="<tr>";//重新装载每一行
+	                        // for(var key in stu[i]){	 //此时key=属性名               	
+	                	    s=s+"<td class='a'>"+stu[i].id+"</td>";	 
+                            s=s+"<td class='b'>"+stu[i].username+"</td>";
+                            s=s+"<td class='c'>"+stu[i].role+"</td>";
+                            s=s+"<td class='d'>"+stu[i].ctime+"</td>"; 
+                            s=s+"<td ><button onclick=ck(\""+stu[i].username+"\");>修改权限</button></td>";
+                            s=s+"<td ><button onclick=ck1(\""+stu[i].username+"\");>修改密码</button></td>";
+                            s=s+"<td ><button onclick=del(\""+stu[i].id+"\");>删除</button></td>"            	
+	                // } 
+	              s+="</tr>";  
+	              $("#xhj").append(s);//把遍历到的每一行 加入
+
+                }
+            });
+            },error:function(data){
+                    alert(data)
+                }
+        })
+    </script>
+</head>
+<body>
+    <div class="xx">
+        <table border="1" id="xhj">
+            <tr>
+                <td class="aa">id</td>
+                <td class="bb">用户名</td>
+                <td class="cc">权限</td>
+                <td class="dd">创建时间</td>
+                <td ><button onclick=add();>添加用户</button></td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的收藏</title>
+    <style>
+        .xx{
+            /* background-color: black; */
+            height: 300px;
+            width: 900px;
+            margin-top: 200px;
+            overflow: scroll;
+            margin-left: 330px;
+            float: left;
+        }
+        .font{
+            font-size: 2em;
+        }
+        .a{
+            float: left;
+            width: 130px;
+            background-color: blanchedalmond;
+            text-align: center;
+        }
+        .b{
+            float: left;
+            width: 350px;
+            margin-left: 0;
+            background-color: blueviolet;
+            text-align: center;
+        }
+        .c{
+            float: left;
+            margin-left: 0;
+            width: 160px;
+            background-color: chartreuse;
+            text-align: center;
+        }
+        .d{
+            float: left;
+            margin-left: 0;
+            width: 160px;
+            background-color:coral;
+            text-align: center;
+        }
+        .aa{
+            float: left;
+            width: 130px;
+            /* background-color: blanchedalmond; */
+            text-align: center;
+        }
+        .bb{
+            float: left;
+            width: 350px;
+            margin-left: 0;
+            /* background-color: blueviolet; */
+            text-align: center;
+        }
+        .cc{
+            float: left;
+            margin-left: 0;
+            width: 160px;
+            /* background-color: chartreuse; */
+            text-align: center;
+        }
+        .dd{
+            float: left;
+            margin-left: 0;
+            width: 160px;
+            /* background-color:coral; */
+            text-align: center;
+        }
+        .login{
+            float: right;
+        }
+    </style>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script>
+        var b,d;
+        // function testNetRequest(){
+        var in1=function(u,i){
+            $.ajax({
+                type:"post",
+                url:"http://127.0.0.1:8899/first/count",
+                async:true,
+                data:{id:""+i+""},
+                success:function(data){
+                    if (data==1)
+                        window.location.href=""+u+""
+                },error:function(data){
+                    alert(data)
+                }
+            })
+        }
+            $.ajax({
+                type:"post",
+                url:"http://127.0.0.1:8899/first/list",
+                async:true,
+                data:{uid:'0'},
+                success:function(data){
+                    var stu=data
+                    $(document).ready(function() {
+                        var s = "";
+		                for(var i = 0; i < stu.length; i++) {
+                            b=stu[i].wurl;
+                            d=stu[i].id;
+                	        s="<tr>";//重新装载每一行
+	                        // for(var key in stu[i]){	 //此时key=属性名               	
+	                	    s=s+"<td class='a'>"+stu[i].wname+"</td>";	 
+                            s=s+"<td class='b'>"+stu[i].wurl+"</td>";
+                            s=s+"<td class='c'>"+stu[i].uid+"</td>";
+                            s=s+"<td class='d'>"+stu[i].count+"</td>"; 
+                            s=s+"<td ><button onclick=in1(\""+b+"\",\""+d+"\");>进入</button></td>";            	
+	                // } 
+	              s+="</tr>";  
+	              $("#xhj").append(s);//把遍历到的每一行 加入
+               }
+            });
+                },error:function(data){
+                    alert(data)
+                }
+            });
+        // }
+    </script>
+</head>
+<body >
+    <div class="login">
+        <a href="./login1.html">登录</a>
+        <a href="./enroll.html">注册</a>
+    </div>
+    <div class="xx">
+        <table border="1" id="xhj">
+            <tr>
+                <td class="aa">网站名</td>
+                <td class="bb">网址</td>
+                <td class="cc">收藏用户</td>
+                <td class="dd">点击次数</td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+
+</html>

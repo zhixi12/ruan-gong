@@ -1,0 +1,53 @@
+<html>
+<head>
+<title>登录</title>
+<!-- <link rel="stylesheet" href="sj.css" type="text/css"> -->
+<style>
+    
+</style>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script>
+    function jump(){
+        var x=$("#username").val()
+        var y=$("#pword").val()
+        // alert(x)
+        // alert(y)
+        localStorage.setItem('uname',x)
+        $.ajax({
+                type:"post",
+                url:"http://127.0.0.1:8899/login/login",
+                async:true,
+                data:{username:""+x+"",
+                      password:""+y+"" 
+                },
+                success:function(data){
+                    if (data.role==1) 
+                        window.location.href='admin.html'
+                    else if (data.role==0)
+                        window.location.href='collect.html' 
+                    else
+                        alert('用户名或密码错误')
+                },error:function(data){
+                    alert(data)
+                }
+            });
+        }
+</script>
+</head>
+<body >
+<div align="center" class="gray-background">
+ 
+<!-- <form method="post" id="form1" action="http://127.0.0.1:8899/login/login" > -->
+<table width=400 class="ss-background" >
+<tr><td colspan="2" align="center">登录界面</td></tr>
+<tr><th>用户名：  </th><td><input type="text" id="username" required="required"></td></tr>
+<tr><th>用户密码：</th><td><input type="password" id="pword" required="required"></td></tr>
+<tr></tr>
+<tr></tr>
+<tr><td colspan="2" align="center"><button name="but" class="btn" onclick="jump()">登录</button>  <button type="button" name="but" class="btn" onclick="window.location.href='./enroll.html'">注册</button>
+</td></tr></table>
+<!-- </form> -->
+</div>
+
+</body>
+</html>
